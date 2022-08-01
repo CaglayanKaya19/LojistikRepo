@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/BLogistics.Core.Helper" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/BLogistics.Core.Helper" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:64937/Services/Order.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/BLogistics.Core.DTO" />
+  <xs:import schemaLocation="http://localhost:64937/Services/Order.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/BLogistics.Core.Enum" />
+  <xs:complexType name="ResponseOfArrayOfOrderT0qgZqbZ">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="ResponseOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/BLogistics.Core.Helper" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ArrayOfOrder" Namespace="http://schemas.datacontract.org/2004/07/BLogistics.Core.DTO" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:Response">
+        <xs:sequence>
+          <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/BLogistics.Core.DTO" minOccurs="0" name="Result" nillable="true" type="q1:ArrayOfOrder" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ResponseOfArrayOfOrderT0qgZqbZ" nillable="true" type="tns:ResponseOfArrayOfOrderT0qgZqbZ" />
+  <xs:complexType name="Response">
+    <xs:sequence>
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/BLogistics.Core.Enum" minOccurs="0" name="ResponseStatus" type="q2:EnumList.WCFResponseMessageType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Response" nillable="true" type="tns:Response" />
+</xs:schema>

@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="B_LogisticsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbl_delivery">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ORDER_ID" Type="int" Nullable="false" />
+          <Property Name="delivery_date" Type="datetime" Nullable="false" />
+          <Property Name="delivery_plate" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="delivery_person" Type="nvarchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_order">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="order_no" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="create_date" Type="datetime" Nullable="false" />
+          <Property Name="shipment_poit" Type="nvarchar" MaxLength="50" />
+          <Property Name="receiver" Type="nvarchar" MaxLength="120" Nullable="false" />
+          <Property Name="contact_phone" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="PRODUCT_ID" Type="int" Nullable="false" />
+          <Property Name="order_count" Type="int" Nullable="false" />
+          <Property Name="order_transfer_status" Type="smallint" Nullable="false" />
+          <Property Name="order_transfer_status_update_date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_product">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="product_name" Type="nvarchar" MaxLength="80" Nullable="false" />
+          <Property Name="product_barcode" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="stock_count" Type="int" Nullable="false" />
+          <Property Name="create_date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_tbl_delivery_tbl_order">
+          <End Role="tbl_order" Type="Self.tbl_order" Multiplicity="1" />
+          <End Role="tbl_delivery" Type="Self.tbl_delivery" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_order">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_delivery">
+              <PropertyRef Name="ORDER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_order_tbl_product">
+          <End Role="tbl_product" Type="Self.tbl_product" Multiplicity="1" />
+          <End Role="tbl_order" Type="Self.tbl_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_product">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_order">
+              <PropertyRef Name="PRODUCT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="B_LogisticsModelStoreContainer">
+          <EntitySet Name="tbl_delivery" EntityType="Self.tbl_delivery" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_order" EntityType="Self.tbl_order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_product" EntityType="Self.tbl_product" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tbl_delivery_tbl_order" Association="Self.FK_tbl_delivery_tbl_order">
+            <End Role="tbl_order" EntitySet="tbl_order" />
+            <End Role="tbl_delivery" EntitySet="tbl_delivery" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_order_tbl_product" Association="Self.FK_tbl_order_tbl_product">
+            <End Role="tbl_product" EntitySet="tbl_product" />
+            <End Role="tbl_order" EntitySet="tbl_order" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="B_LogisticsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tbl_delivery">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ORDER_ID" Type="Int32" Nullable="false" />
+          <Property Name="delivery_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="delivery_plate" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="delivery_person" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="tbl_order" Relationship="B_LogisticsModel.FK_tbl_delivery_tbl_order" FromRole="tbl_delivery" ToRole="tbl_order" />
+        </EntityType>
+        <EntityType Name="tbl_product">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="product_name" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="product_barcode" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="stock_count" Type="Int32" Nullable="false" />
+          <Property Name="create_date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="tbl_order" Relationship="B_LogisticsModel.FK_tbl_order_tbl_product" FromRole="tbl_product" ToRole="tbl_order" />
+        </EntityType>
+        <EntityContainer Name="BLogisticsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tbl_delivery" EntityType="Self.tbl_delivery" />
+          <EntitySet Name="tbl_product" EntityType="Self.tbl_product" />
+          <EntitySet Name="tbl_order" EntityType="B_LogisticsModel.tbl_order" />
+          <AssociationSet Name="FK_tbl_delivery_tbl_order" Association="B_LogisticsModel.FK_tbl_delivery_tbl_order">
+            <End Role="tbl_order" EntitySet="tbl_order" />
+            <End Role="tbl_delivery" EntitySet="tbl_delivery" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_order_tbl_product" Association="B_LogisticsModel.FK_tbl_order_tbl_product">
+            <End Role="tbl_product" EntitySet="tbl_product" />
+            <End Role="tbl_order" EntitySet="tbl_order" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="tbl_order">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="order_no" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="create_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="shipment_poit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="receiver" Type="String" Nullable="false" MaxLength="120" FixedLength="false" Unicode="true" />
+          <Property Name="contact_phone" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="PRODUCT_ID" Type="Int32" Nullable="false" />
+          <Property Name="order_count" Type="Int32" Nullable="false" />
+          <Property Name="order_transfer_status" Type="Int16" Nullable="false" />
+          <Property Name="order_transfer_status_update_date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tbl_delivery" Relationship="B_LogisticsModel.FK_tbl_delivery_tbl_order" FromRole="tbl_order" ToRole="tbl_delivery" />
+          <NavigationProperty Name="tbl_product" Relationship="B_LogisticsModel.FK_tbl_order_tbl_product" FromRole="tbl_order" ToRole="tbl_product" />
+        </EntityType>
+        <Association Name="FK_tbl_delivery_tbl_order">
+          <End Type="B_LogisticsModel.tbl_order" Role="tbl_order" Multiplicity="1" />
+          <End Type="B_LogisticsModel.tbl_delivery" Role="tbl_delivery" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_order">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_delivery">
+              <PropertyRef Name="ORDER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_order_tbl_product">
+          <End Type="B_LogisticsModel.tbl_product" Role="tbl_product" Multiplicity="1" />
+          <End Type="B_LogisticsModel.tbl_order" Role="tbl_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_product">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_order">
+              <PropertyRef Name="PRODUCT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="B_LogisticsModelStoreContainer" CdmEntityContainer="BLogisticsEntities">
+          <EntitySetMapping Name="tbl_delivery">
+            <EntityTypeMapping TypeName="B_LogisticsModel.tbl_delivery">
+              <MappingFragment StoreEntitySet="tbl_delivery">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="ORDER_ID" ColumnName="ORDER_ID" />
+                <ScalarProperty Name="delivery_date" ColumnName="delivery_date" />
+                <ScalarProperty Name="delivery_plate" ColumnName="delivery_plate" />
+                <ScalarProperty Name="delivery_person" ColumnName="delivery_person" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_product">
+            <EntityTypeMapping TypeName="B_LogisticsModel.tbl_product">
+              <MappingFragment StoreEntitySet="tbl_product">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="product_name" ColumnName="product_name" />
+                <ScalarProperty Name="product_barcode" ColumnName="product_barcode" />
+                <ScalarProperty Name="stock_count" ColumnName="stock_count" />
+                <ScalarProperty Name="create_date" ColumnName="create_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_order">
+            <EntityTypeMapping TypeName="B_LogisticsModel.tbl_order">
+              <MappingFragment StoreEntitySet="tbl_order">
+                <ScalarProperty Name="order_transfer_status_update_date" ColumnName="order_transfer_status_update_date" />
+                <ScalarProperty Name="order_transfer_status" ColumnName="order_transfer_status" />
+                <ScalarProperty Name="order_count" ColumnName="order_count" />
+                <ScalarProperty Name="PRODUCT_ID" ColumnName="PRODUCT_ID" />
+                <ScalarProperty Name="contact_phone" ColumnName="contact_phone" />
+                <ScalarProperty Name="receiver" ColumnName="receiver" />
+                <ScalarProperty Name="shipment_poit" ColumnName="shipment_poit" />
+                <ScalarProperty Name="create_date" ColumnName="create_date" />
+                <ScalarProperty Name="order_no" ColumnName="order_no" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
